@@ -82,7 +82,7 @@ class BlacklistToken(db.Model):
         self.blacklisted_on = datetime.datetime.now()
 
     def __repr__(self):
-        return "<id: token: {}".format(self.token)
+        return "<id: token: {}>".format(self.token)
 
     @staticmethod
     def check_blacklist(auth_token):
@@ -92,3 +92,34 @@ class BlacklistToken(db.Model):
             return True
         else:
             return False
+
+class Sentence(db.Model):
+
+    __tablename__ = "sentences"
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    samples = db.Column(db.Integer, nullable=False, default=0)
+    sentence = db.Column(db.Text, nullable=False)
+    verified_records = db.Column(db.Integer, nullable=False, default=0)
+
+    def __init__(self, sentence):
+        self.sentence = sentence
+
+    def __repr__(self):
+        return "<sentence: {}, verified: {}>".format(self.sentence, self.verified_records)
+
+class Recording(db.Model):
+
+    __tablename__ = "recordings"
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    filename = db.Column(db.Text, nullable=False)
+    is_verified = db.Column(db.Boolean, nullable=False, default=False)
+    sentence_id = db.Column(db.ForeignKey("sentences.id"), nullable=False)
+
+    def __init__(self, filename, sentence_id):
+        self.filename = filename
+        self.sentence_id = sentence_id
+
+    def __repr__(self):
+        return "<sentence_id: {}, filename: {}>".format(self.sentence_id, self.filename)
