@@ -4,8 +4,8 @@ from src.views.auth.Register import RegisterAPI
 from src.views.auth.Login import LoginAPI
 from src.views.auth.User import UserAPI
 from src.views.auth.Logout import LogoutAPI
-from src.views.home.Home import HomeAPI
-from src.views.js.js import JsAPI
+from src.views.staticfiles.Home import HomeAPI
+from src.views.staticfiles.Js import JsAPI
 
 auth_blueprint = Blueprint("auth", __name__)
 
