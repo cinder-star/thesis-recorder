@@ -18,7 +18,7 @@ db = SQLAlchemy(app)
 
 firebase_credentials = credentials.Certificate(os.getenv("FIREBASE_CONFIG"))
 firebase_admin.initialize_app(firebase_credentials, {
-    "storageBucket": "gs://thesis-recorder.appspot.com"
+    "storageBucket": "thesis-recorder.appspot.com"
 })
 storage_bucket = storage.bucket()
 
