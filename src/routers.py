@@ -6,6 +6,8 @@ from src.views.auth.User import UserAPI
 from src.views.auth.Logout import LogoutAPI
 from src.views.staticfiles.Home import HomeAPI
 from src.views.staticfiles.Js import JsAPI
+from src.views.recording.Sentence import SentenceAPI
+from src.views.recording.RecordFile import RecordAPI
 
 auth_blueprint = Blueprint("auth", __name__)
 
@@ -16,6 +18,8 @@ user_view = UserAPI.as_view("user_api")
 logout_view = LogoutAPI.as_view("logout_api")
 home_view = HomeAPI.as_view("home_api")
 js_view = JsAPI.as_view("js_api")
+sentence_view = SentenceAPI.as_view("sentence_api")
+record_view = RecordAPI.as_view("record_api")
 
 # add Rules for API Endpoints
 auth_blueprint.add_url_rule("/", view_func=home_view, methods=["GET"])
@@ -26,3 +30,5 @@ auth_blueprint.add_url_rule("/auth/login", view_func=login_view, methods=["POST"
 auth_blueprint.add_url_rule("/auth/status", view_func=user_view, methods=["GET"])
 auth_blueprint.add_url_rule("/auth/logout", view_func=logout_view, methods=["POST"])
 auth_blueprint.add_url_rule("/js/<path:filename>", view_func=js_view, methods=["GET"])
+auth_blueprint.add_url_rule("/get_new_sentence", view_func=sentence_view, methods=["POST"])
+auth_blueprint.add_url_rule("/send", view_func=record_view, methods=["POST"])

@@ -98,15 +98,15 @@ class Sentence(db.Model):
     __tablename__ = "sentences"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    samples = db.Column(db.Integer, nullable=False, default=0)
+    samples = db.Column(db.Integer, default=0, nullable=False)
     sentence = db.Column(db.Text, nullable=False)
-    verified_records = db.Column(db.Integer, nullable=False, default=0)
+    verified = db.Column(db.Integer, default=0)
 
     def __init__(self, sentence):
         self.sentence = sentence
 
     def __repr__(self):
-        return "<sentence: {}, verified: {}>".format(self.sentence, self.verified_records)
+        return "<sentence: {}, verified: {}>".format(self.sentence, self.verified)
 
 class Recording(db.Model):
 

@@ -4,17 +4,14 @@ let text = document.getElementById("text");
 
 function get_sentence() {
 	let fd = new FormData();
-	let x = localStorage.getItem("text_list");
+	let x = sessionStorage.getItem("text_list");
 	if (x==null || x.length >= 13) {
 		x = "";
 		localStorage.setItem("text_list", "");
 	}
 	fd.append("all_strings", x);
 	$.ajax({
-        headers: {
-			"X-CSRFToken": csrftoken,
-		},
-        url: '/get_new_sentence/',
+        url: '/get_new_sentence',
         type: 'POST',
         data: fd,
         async: true,
@@ -22,9 +19,9 @@ function get_sentence() {
         processData: false,
     }).done((e) => {
 		if(x==""){
-			localStorage.setItem("text_list", e.number);
-		} else {
-			localStorage.setItem("text_list", x + ", "+e.number.toString());
+			sessionStorage.setItem("text_list", e.number);
+		} else {localStorage
+			sessionStorage.setItem("text_list", x + ", "+e.number.toString());
 		}
 		text.innerHTML = e.sentence;
 		sentence_number = e.number.toString();
@@ -84,7 +81,7 @@ function sendData(data) {
 	fd.append("filename", sentence_number+"-"+nowstring+".wav");
 	fd.append("all_strings", x);
     $.ajax({
-        url: '/send/',
+        url: '/send',
         type: 'POST',
         data: fd,
         async: true,
@@ -92,9 +89,9 @@ function sendData(data) {
         processData: false,
     }).done((e) => {
 		if(x==""){
-			localStorage.setItem("text_list", e.number);
+			sessionStorage.setItem("text_list", e.number);
 		} else {
-			localStorage.setItem("text_list", x + ", "+e.number.toString());
+			sessionStorage.setItem("text_list", x + ", "+e.number.toString());
 		}
 		text.innerHTML = e.sentence;
 		sentence_number = e.number.toString();
