@@ -39,5 +39,6 @@ jobs:
         FLASK_DEBUG: False
         SQLALCHEMY_TRACK_MODIFICATIONS: False
         SECRET_KEY: abcde
+        FIREBASE_CONFIG: thesis-recorder-firebase-adminsdk-ejrg8-0e1d45adfb.json
         APP_SETTINGS: src.config.TestingConfig
         DATABASE_URL: sqlite:///test.db
