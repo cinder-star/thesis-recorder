@@ -2,7 +2,7 @@ let sentence_number = "";
 let div = document.getElementById("record_box");
 let text = document.getElementById("text");
 
-function get_sentence() {
+function set_sentence() {
 	let fd = new FormData();
 	let x = sessionStorage.getItem("text_list");
 	if (x==null || x.length >= 13) {
@@ -28,7 +28,7 @@ function get_sentence() {
     });
 }
 
-get_sentence();
+set_sentence();
 
 Element.prototype.remove = function() {
     this.parentElement.removeChild(this);
@@ -63,23 +63,19 @@ function handlerFunction(stream) {
             recordedAudio.src = URL.createObjectURL(blob);
             recordedAudio.controls = true;
             recordedAudio.autoplay = true;
-            sendData(blob)
+            set_sentence();
+            sendData(blob);
         }
     }
 }
 
-function sendData(data) {
+async function sendData(data) {
     let fd = new FormData();
     let now = new Date();
 	let nowstring = now.format("yyyymmddHHMMss");
 	let x = localStorage.getItem("text_list");
-	if (x==null || x.length >= 13) {
-		x = "";
-		localStorage.setItem("text_list", "");
-	}
     fd.append("audio", data);
 	fd.append("filename", sentence_number+"-"+nowstring+".wav");
-	fd.append("all_strings", x);
     $.ajax({
         url: '/send',
         type: 'POST',
@@ -88,13 +84,7 @@ function sendData(data) {
         contentType: false,
         processData: false,
     }).done((e) => {
-		if(x==""){
-			sessionStorage.setItem("text_list", e.number);
-		} else {
-			sessionStorage.setItem("text_list", x + ", "+e.number.toString());
-		}
-		text.innerHTML = e.sentence;
-		sentence_number = e.number.toString();
+        console.log(e)
     });
 }
 
