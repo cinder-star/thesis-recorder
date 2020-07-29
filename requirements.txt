@@ -2,6 +2,7 @@ alembic
 bcrypt
 cffi
 click
+django
 Flask
 Flask-Bcrypt
 Flask-Cors
