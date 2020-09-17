@@ -22,7 +22,7 @@ from rest_framework import permissions
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="CRM API", default_version="v1", description="CRM API (Under development)"
+        title="Thesis Recorder", default_version="v1", description="Thesis recorder"
     ),
     public=False,
     permission_classes=(permissions.IsAuthenticated, permissions.IsAdminUser),
