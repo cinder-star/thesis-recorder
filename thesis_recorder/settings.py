@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     "django_seed",
     "django_extensions",
     "django_filters",
+    # Project Apps
+    "core",
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
