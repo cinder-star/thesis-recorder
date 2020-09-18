@@ -116,6 +116,7 @@ PyMySQL = "==0.9.3"
 pyOpenSSL = "==19.1.0"
 PyYAML = "==5.3.1"
 service_identity = "==18.1.0"
+djangorestframework-simplejwt = "*"
 
 [requires]
 python_version = "3.8"
