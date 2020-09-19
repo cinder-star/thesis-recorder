@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     "django_filters",
     # Project Apps
     "core",
+    "collect_audio"
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
