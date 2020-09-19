@@ -51,5 +51,5 @@ urlpatterns = [
     path(f"api/{__version__}/auth/jwt/", TokenObtainPairView.as_view()),
     path(f"api/{__version__}/auth/refresh-jwt/", TokenRefreshView.as_view()),
     path(f"rest-framework/", include("rest_framework.urls")),
-    path("test/",include("collect_audio.urls")),
+    path("test/", include("collect_audio.urls")),
 ]
