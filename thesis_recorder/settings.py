@@ -39,24 +39,22 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.sites",
-    "corsheaders",
     # External Apps
     "rest_framework",
     "rest_framework.authtoken",
-    "allauth",
-    "allauth.account",
-    "rest_auth",
-    "rest_auth.registration",
     "drf_yasg",
-    "django_seed",
-    "django_extensions",
-    "django_filters",
+    "corsheaders",
     # Project Apps
     "core",
     "collect_audio",
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ORIGIN_WHITELIST = (
+    "http://localhost:8000",
+    "http://127.0.0.1:8000"
+)
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -138,17 +136,18 @@ STATIC_URL = "/static/"
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
-        "rest_framework.permissions.IsAuthenticatedOrReadOnly",
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        "rest_framework_jwt.authentication.JSONWebTokenAuthentication",
         "rest_framework.authentication.SessionAuthentication",
-        "rest_framework.authentication.TokenAuthentication",  # new
         "rest_framework.authentication.BasicAuthentication",
     ],
     "DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema",
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
-    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
+}
+
+JWT_AUTH = {
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'thesis_recorder.utils.my_jwt_response_handler'
 }
 
 SIMPLE_JWT = {
