@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
 from django.contrib.auth.models import User
+from rest_framework_simplejwt.serializers import TokenObtainSerializer
+from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -11,15 +13,16 @@ class UserSerializer(serializers.ModelSerializer):
 
 class UserSerializerWithToken(serializers.ModelSerializer):
 
-    token = serializers.SerializerMethodField()
+    access = serializers.SerializerMethodField()
+    refresh = serializers.SerializerMethodField()
     password = serializers.CharField(write_only=True)
 
-    def get_token(self, obj):
-        jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
-        jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
+    def get_access(self, user):
+        token = AccessToken().for_user(user).__str__()
+        return token
 
-        payload = jwt_payload_handler(obj)
-        token = jwt_encode_handler(payload)
+    def get_refresh(self, user):
+        token = RefreshToken().for_user(user).__str__()
         return token
 
     def create(self, validated_data):
@@ -32,4 +35,4 @@ class UserSerializerWithToken(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ("token", "username", "password")
+        fields = ("access", "refresh", "username", "password")

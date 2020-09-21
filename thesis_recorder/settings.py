@@ -133,19 +133,12 @@ STATIC_URL = "/static/"
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated",],
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework_jwt.authentication.JSONWebTokenAuthentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
         "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.BasicAuthentication",
     ],
     "DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema",
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
-}
-
-JWT_AUTH = {
-    "JWT_RESPONSE_PAYLOAD_HANDLER": "thesis_recorder.utils.my_jwt_response_handler",
-    'JWT_EXPIRATION_DELTA': timedelta(days=2),
-    'JWT_ALLOW_REFRESH': True,
-    'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=30),
 }
 
 SIMPLE_JWT = {
