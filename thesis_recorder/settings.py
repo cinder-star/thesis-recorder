@@ -51,10 +51,7 @@ INSTALLED_APPS = [
 
 CORS_ORIGIN_ALLOW_ALL = True
 
-CORS_ORIGIN_WHITELIST = (
-    "http://localhost:8000",
-    "http://127.0.0.1:8000"
-)
+CORS_ORIGIN_WHITELIST = ("http://localhost:8000", "http://127.0.0.1:8000")
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -134,9 +131,7 @@ USE_TZ = True
 STATIC_URL = "/static/"
 
 REST_FRAMEWORK = {
-    "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.IsAuthenticated",
-    ],
+    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAuthenticated",],
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_jwt.authentication.JSONWebTokenAuthentication",
         "rest_framework.authentication.SessionAuthentication",
@@ -147,7 +142,7 @@ REST_FRAMEWORK = {
 }
 
 JWT_AUTH = {
-    'JWT_RESPONSE_PAYLOAD_HANDLER': 'thesis_recorder.utils.my_jwt_response_handler'
+    "JWT_RESPONSE_PAYLOAD_HANDLER": "thesis_recorder.utils.my_jwt_response_handler"
 }
 
 SIMPLE_JWT = {

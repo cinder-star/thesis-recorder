@@ -4,10 +4,9 @@ from django.contrib.auth.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = User
-        fields = ('username',)
+        fields = ("username",)
 
 
 class UserSerializerWithToken(serializers.ModelSerializer):
@@ -24,7 +23,7 @@ class UserSerializerWithToken(serializers.ModelSerializer):
         return token
 
     def create(self, validated_data):
-        password = validated_data.pop('password', None)
+        password = validated_data.pop("password", None)
         instance = self.Meta.model(**validated_data)
         if password is not None:
             instance.set_password(password)
@@ -33,4 +32,4 @@ class UserSerializerWithToken(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('token', 'username', 'password')
+        fields = ("token", "username", "password")
