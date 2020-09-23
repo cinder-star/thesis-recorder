@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from rest_framework_jwt.settings import api_settings
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.serializers import TokenObtainSerializer
 from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
