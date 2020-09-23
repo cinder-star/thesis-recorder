@@ -8,24 +8,30 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Sentence',
+            name="Sentence",
             fields=[
-                ('id', models.AutoField(editable=False, primary_key=True, serialize=False)),
-                ('created_at', models.DateTimeField(default=django.utils.timezone.now)),
-                ('updated_at', models.DateTimeField(default=django.utils.timezone.now)),
-                ('is_deleted', models.BooleanField(default=False)),
-                ('deleted_at', models.DateTimeField(blank=True, null=True)),
-                ('sentence', models.CharField(max_length=200)),
-                ('total_records', models.IntegerField(blank=True, default=0, null=True)),
-                ('verified_records', models.IntegerField(blank=True, default=0, null=True)),
+                (
+                    "id",
+                    models.AutoField(editable=False, primary_key=True, serialize=False),
+                ),
+                ("created_at", models.DateTimeField(default=django.utils.timezone.now)),
+                ("updated_at", models.DateTimeField(default=django.utils.timezone.now)),
+                ("is_deleted", models.BooleanField(default=False)),
+                ("deleted_at", models.DateTimeField(blank=True, null=True)),
+                ("sentence", models.CharField(max_length=200)),
+                (
+                    "total_records",
+                    models.IntegerField(blank=True, default=0, null=True),
+                ),
+                (
+                    "verified_records",
+                    models.IntegerField(blank=True, default=0, null=True),
+                ),
             ],
-            options={
-                'abstract': False,
-            },
+            options={"abstract": False,},
         ),
     ]

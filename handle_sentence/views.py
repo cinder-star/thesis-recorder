@@ -9,7 +9,9 @@ from .models import Sentence
 
 # Create your views here.
 class SentenceRetrieveView(ListAPIView):
-    permission_classes = [permissions.AllowAny,]
+    permission_classes = [
+        permissions.AllowAny,
+    ]
     serializer_class = SentenceSerializer
 
     def get_queryset(self):
