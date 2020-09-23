@@ -11,7 +11,15 @@ from handle_sentence.models import Sentence
 seeder = Seed.seeder()
 fake = Faker()
 
-seeder.add_entity(Sentence, 10, {"sentence": lambda x: fake.sentence(),})
+seeder.add_entity(
+    Sentence,
+    10,
+    {
+        "sentence": lambda x: fake.sentence(),
+        "total_records": lambda x: 0,
+        "verified_records": lambda x: 0,
+    }
+)
 
 seeder.execute()
 print("Done!")

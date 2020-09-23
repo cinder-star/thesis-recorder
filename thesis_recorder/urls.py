@@ -44,7 +44,7 @@ urlpatterns = [
     ),
     path("admin/", admin.site.urls),
     path(f"rest-framework/", include("rest_framework.urls")),
-    path("test/", include("collect_audio.urls")),
+    path("collect_audio/", include("collect_audio.urls")),
     path("accounts/", include("accounts.urls")),
     path("sentences/", include("handle_sentence.urls")),
 ]
