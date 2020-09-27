@@ -1,31 +1,21 @@
-# pylint: disable=D104
+#!/usr/bin/env python
+"""Django's command-line utility for administrative tasks."""
 import os
-import unittest
-import coverage
-
-from flask_script import Manager
-from flask_migrate import Migrate, MigrateCommand
-
-from src import app, db
-
-migrate = Migrate(app, db)
-manager = Manager(app)
-
-# migrations
-manager.add_command("db", MigrateCommand)
+import sys
 
 
-@manager.command
-def create_db():
-    """Creates the db tables."""
-    db.create_all()
-
-
-@manager.command
-def drop_db():
-    """Drops the db tables."""
-    db.drop_all()
+def main():
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "thesis_recorder.settings")
+    try:
+        from django.core.management import execute_from_command_line
+    except ImportError as exc:
+        raise ImportError(
+            "Couldn't import Django. Are you sure it's installed and "
+            "available on your PYTHONPATH environment variable? Did you "
+            "forget to activate a virtual environment?"
+        ) from exc
+    execute_from_command_line(sys.argv)
 
 
 if __name__ == "__main__":
-    manager.run()
+    main()
