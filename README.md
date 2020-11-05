@@ -1,40 +1,95 @@
-# Flask Boilerplate
+# Installation
 
-[![Actions Status](https://github.com/YAS-opensource/flask-boilerplate/workflows/flask-boilerplate/badge.svg)](https://github.com/YAS-opensource/flask-boilerplate/actions)
-[![codecov](https://codecov.io/gh/YAS-opensource/flask-boilerplate/branch/master/graph/badge.svg)](https://codecov.io/gh/YAS-opensource/flask-boilerplate)
-[![Maintainability](https://api.codeclimate.com/v1/badges/0461212239959a3242a9/maintainability)](https://codeclimate.com/github/YAS-opensource/flask-boilerplate/maintainability)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/945173f5a1d24513b0f1e709216c6baf)](https://app.codacy.com/gh/YAS-opensource/flask-boilerplate?utm_source=github.com&utm_medium=referral&utm_content=YAS-opensource/flask-boilerplate&utm_campaign=Badge_Grade_Settings)
+- First install apache and start
 
-## Installing dependencies
+```bash
+sudo yum install httpd
+sudo systemctl start httpd
+```
 
-- Install and run dependencies on virtualenv:
+- Then install httpd devel
 
-  ```bash
-  pipenv install
-  pipenv run
-  ```
+```bash
+sudo yum install httpd-devel
+```
 
-- Migrate the database:
+- Install mod_wsgi
 
-  ```bash
-  make db_make_migrate
-  make db_migrate
-  ```
+```bash
+sudo yum install mod_wsgi
+sudo systemctl restart httpd
+```
 
-- Add a `.env` file. One is given here as an `example.env`, you must not use this file as is, always edit the secret key to a new secure key, when you develop your application. Modify other variables as per your necessary configuration for your own project.
+- Check if it is working
 
-## Usage
+```bash
+$ sudo httpd - M | grep wsgi
+wsgi_module (shared) # The okay response
+```
 
-- To run the project:
+- If the server didn't load the mod_wsgi module, add the following line in the /etc/httpd/conf/httpd.conf file along with the other loadmodule sections:
 
-  ```bash
-  make run
-  ```
+```bash
+LoadModule wsgi_module modules/mod_wsgi.so
+```
 
-  Your server will run at <http://127.0.0.1:5000/>
+- Then restart the apache server again:
 
-> If you want to run the project on a different port, for example 8000, do this:
->  
->  ```bash
->  python manage.py runserver 8000
->  ```
+```bash
+sudo systemctl restart httpd
+```
+
+- Extract the source code and copy the thesis-recorder folder into /var/www folder
+
+```bash
+sudo cp -r /path/to/your/extracted/thesis-recorder /var/www/thesis-recorder
+```
+
+- Give permission of the folder
+
+```bash
+sudo chmod 777 -R /var/www/thesis-recorder
+```
+
+- Go to /var/www and create virtualenv
+
+```bash
+cd /var/www/thesis-recorder
+python3 -m venv venv
+```
+
+- Install the dependencies for the virtual env:
+
+```bash
+source /venv/bin/activate
+pip3 install -r requirements.txt
+```
+
+- Create database and grant permission:
+
+```bash
+python3 manage.py migrate
+sudo chmod 777 /var/www/thesis-recorder/db.sqlite3
+```
+
+- Add these line into the /etc/httpd/conf/httpd.conf file under vitualhost section
+
+```bash
+<VirtualHost *:80>
+    ServerName localhost
+    WSGIDaemonProcess thesis-recorder user=http group=http threads=2 python-path=/var/www/thesis-recorder/venv/lib/python3.6/site-packages
+    WSGIScriptAlias / /var/www/thesis-recorder/thesis_recorder/wsgi.py
+    <Directory /var/www/thesis-recorder>
+        Require all granted
+    </Directory>
+    <Directory /var/www/thesis-recorder/media>
+        Require all granted
+    </Directory>
+</VirtualHost>
+```
+
+- Restart the apache server and go to <http://127.0.0.1> in the browser:
+
+```bash
+sudo systemctl restart httpd
+```
