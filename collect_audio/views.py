@@ -6,6 +6,7 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from handle_sentence.models import Sentence
+from handle_sentence.utils import get_sentece_by_id
 
 class NormalView(APIView):
     permission_classes = [AllowAny,]
@@ -13,13 +14,15 @@ class NormalView(APIView):
         try:
             filename = request.data["filename"]
             file = request.FILES["audio"]
+            next_id = request.data["next_id"]
             fs = FileSystemStorage()
             fs.save(filename, file)
             sentence_id = filename.split("-")[0]
             sentence = Sentence.objects.get(id=sentence_id)
             sentence.total_records += 1
             sentence.save()
-            return Response(status=status.HTTP_200_OK)
+            data = get_sentece_by_id(next_id)
+            return Response(data=data, status=status.HTTP_200_OK)
         except:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -27,6 +30,8 @@ class NewSentenceView(NormalView):
     permission_classes = [IsAuthenticated]
     def post(self, request, format=None):
         sentence = request.data["sentence"]
+        if len(sentence) == 0:
+            return Response(data={"details": "Empty sentence"}, status=status.HTTP_406_NOT_ACCEPTABLE)
         try:
             db_instance = Sentence.objects.get(sentence=sentence)
             request.data["filename"] = "".join([str(db_instance.id),"-",request.data["filename"]])
