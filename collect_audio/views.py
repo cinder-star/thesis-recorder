@@ -1,3 +1,5 @@
+import json
+
 from django.core.files.storage import FileSystemStorage
 
 from rest_framework.views import APIView
@@ -14,7 +16,10 @@ class NormalView(APIView):
         try:
             filename = request.data["filename"]
             file = request.FILES["audio"]
-            next_id = request.data["next_id"]
+            try:
+                next_id = int(request.data["next_id"])
+            except ValueError:
+                next_id = None
             fs = FileSystemStorage()
             fs.save(filename, file)
             sentence_id = filename.split("-")[0]
@@ -23,7 +28,8 @@ class NormalView(APIView):
             sentence.save()
             data = get_sentece_by_id(next_id)
             return Response(data=data, status=status.HTTP_200_OK)
-        except:
+        except Exception as e:
+            print(e.__str__())
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class NewSentenceView(NormalView):
