@@ -18,7 +18,7 @@ seeder.add_entity(
         "sentence": lambda x: fake.sentence(),
         "total_records": lambda x: 0,
         "verified_records": lambda x: 0,
-    }
+    },
 )
 
 seeder.execute()

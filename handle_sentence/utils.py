@@ -1,6 +1,7 @@
 from .models import Sentence
 import random
 
+
 def get_sentece_by_id(id=None):
     total = Sentence.objects.count()
     final_id = None

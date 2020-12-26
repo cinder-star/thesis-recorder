@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "core",
     "collect_audio",
     "handle_sentence",
+    "download_data",
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
@@ -166,8 +167,8 @@ SITE_ID = 1
 
 __version__ = "v1"
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 FILE_UPLOAD_HANDLERS = [
     "django.core.files.uploadhandler.MemoryFileUploadHandler",
