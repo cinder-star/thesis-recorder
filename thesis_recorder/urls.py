@@ -48,4 +48,5 @@ urlpatterns = [
     path("accounts/", include("accounts.urls")),
     path("sentences/", include("handle_sentence.urls")),
     path("download_data/", include("download_data.urls")),
+    path("upload/", include("upload_data.urls")),
 ]
