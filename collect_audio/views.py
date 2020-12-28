@@ -31,9 +31,12 @@ class NormalView(APIView):
             sentence.total_records += 1
             sentence.save()
 
+            user = self.request.user
+            if not user.is_authenticated:
+                user = None
             file_size = os.path.getsize(os.path.join("media", filename))
             Recording.objects.create(
-                sentence=sentence, filename=filename, size=file_size
+                sentence=sentence, filename=filename, size=file_size, user=user,
             )
 
             data = get_sentece_by_id(next_id)
