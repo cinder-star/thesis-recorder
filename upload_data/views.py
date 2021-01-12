@@ -10,7 +10,7 @@ import pandas as pd
 class UploadSentences(APIView):
     def post(self, request, *args, **kwargs):
         try:
-            file = request.FILES["audio"]
+            file = request.FILES["file"]
             df = pd.read_csv(file)
             Sentence.objects.bulk_create(
                 [
