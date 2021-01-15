@@ -1,3 +1,4 @@
+from upload_data.decorator import is_superuser
 from handle_sentence.models import Sentence
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -8,7 +9,9 @@ import pandas as pd
 
 
 class UploadSentences(APIView):
-    def post(self, request, *args, **kwargs):
+    @is_superuser
+    def post(self, *args, **kwargs):
+        request = self.request
         try:
             file = request.FILES["file"]
             df = pd.read_csv(file)
