@@ -11,12 +11,16 @@ import os
 import sys
 import site
 
-site.addsitedir("/var/www/thesis-recorder/venv/lib/python3.8/site-packages")
-site.addsitedir("/var/www/thesis-recorder/venv/lib64/python3.8/site-packages")
-
-sys.path.insert(0, "/var/www/thesis-recorder")
-
 from django.core.wsgi import get_wsgi_application
+
+from dotenv import load_dotenv
+
+site.addsitedir("/var/www/thesis-recorder/venv/lib/python3.9/site-packages")
+
+load_dotenv(verbose=True)
+
+sys.path.append("/var/www/thesis-recorder")
+sys.path.append("/var/www/thesis-recorder/venv/lib/python3.9/site-packages")
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "thesis_recorder.settings")
 
