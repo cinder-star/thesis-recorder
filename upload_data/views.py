@@ -14,7 +14,12 @@ class UploadSentences(APIView):
         request = self.request
         try:
             file = request.FILES["file"]
-            df = pd.read_csv(file)
+            filetype = request.data.get("filetype", None)
+            df = None
+            if filetype == "xlsx":
+                df = pd.read_excel(file.read())
+            elif not filetype or filetype == "csv":
+                df = pd.read_csv(file)
             Sentence.objects.bulk_create(
                 [
                     Sentence(sentence=single_sentence)
@@ -23,5 +28,6 @@ class UploadSentences(APIView):
             )
             return Response({"details": "saved"}, status=status.HTTP_200_OK)
         except Exception as e:
-            print(e.args)
-            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(
+                {"details": e.__repr__()}, status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )

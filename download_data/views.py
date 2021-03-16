@@ -54,6 +54,6 @@ class RecordingFiles(APIView):
             for file in recording_list:
                 filepath = os.path.join(MEDIA_ROOT, file)
                 zipme.write(filepath, file, compress_type=zipfile.ZIP_DEFLATED)
-        
+
         response["Content-Disposition"] = f'attachment; filename="{zipfilename}"'
         return response

@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "django_seed",
     # Project Apps
     "core",
+    "accounts",
     "collect_audio",
     "handle_sentence",
     "download_data",
@@ -70,6 +71,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "thesis_recorder.urls"
+
+AUTH_USER_MODEL = "accounts.User"
 
 TEMPLATES = [
     {
