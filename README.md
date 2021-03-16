@@ -93,3 +93,9 @@ sudo chmod 777 /var/www/thesis-recorder/db.sqlite3
 ```bash
 sudo systemctl restart httpd
 ```
+
+if SELinux Policy is Enforcing
+```bash
+[root@cse thesis-recorder]# semanage fcontext -a -t httpd_exec_t '<absolute path to venv>/.*\.so(\..*)?'
+[root@cse thesis-recorder]# restorecon -r <<absolute path to venv>>
+```
