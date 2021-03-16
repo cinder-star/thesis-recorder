@@ -33,7 +33,7 @@ class NormalView(APIView):
         user = self.request.user
         if not user.is_authenticated:
             user = None
-        file_size = os.path.getsize(os.path.join("media", filename))
+        file_size = None
         Recording.objects.create(
             sentence=sentence, filename=filename, size=file_size, user=user,
         )
