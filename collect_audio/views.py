@@ -17,34 +17,29 @@ class NormalView(APIView):
     ]
 
     def post(self, request, format=None):
+        filename = request.data["filename"]
+        file = request.FILES["audio"]
         try:
-            filename = request.data["filename"]
-            file = request.FILES["audio"]
-            try:
-                next_id = int(request.data["next_id"])
-            except ValueError:
-                next_id = None
-            fs = FileSystemStorage()
-            fs.save(filename, file)
-            sentence_id = filename.split("-")[0]
-            sentence = Sentence.objects.get(id=sentence_id)
-            sentence.total_records += 1
-            sentence.save()
+            next_id = int(request.data["next_id"])
+        except ValueError:
+            next_id = None
+        fs = FileSystemStorage()
+        fs.save(filename, file)
+        sentence_id = filename.split("-")[0]
+        sentence = Sentence.objects.get(id=sentence_id)
+        sentence.total_records += 1
+        sentence.save()
 
-            user = self.request.user
-            if not user.is_authenticated:
-                user = None
-            file_size = os.path.getsize(os.path.join("media", filename))
-            Recording.objects.create(
-                sentence=sentence, filename=filename, size=file_size, user=user,
-            )
+        user = self.request.user
+        if not user.is_authenticated:
+            user = None
+        file_size = os.path.getsize(os.path.join("media", filename))
+        Recording.objects.create(
+            sentence=sentence, filename=filename, size=file_size, user=user,
+        )
 
-            data = get_sentece_by_id(next_id)
-            return Response(data=data, status=status.HTTP_200_OK)
-        except Exception as e:
-            return Response(
-                {"details": e.__repr__()}, status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            )
+        data = get_sentece_by_id(next_id)
+        return Response(data=data, status=status.HTTP_200_OK)
 
 
 class NewSentenceView(NormalView):
