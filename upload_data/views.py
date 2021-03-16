@@ -23,5 +23,6 @@ class UploadSentences(APIView):
             )
             return Response({"details": "saved"}, status=status.HTTP_200_OK)
         except Exception as e:
-            print(e.args)
-            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(
+                {"details": e.__repr__()}, status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )

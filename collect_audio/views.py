@@ -42,8 +42,9 @@ class NormalView(APIView):
             data = get_sentece_by_id(next_id)
             return Response(data=data, status=status.HTTP_200_OK)
         except Exception as e:
-            print(e.__str__())
-            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(
+                {"details": e.__repr__()}, status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
 
 
 class NewSentenceView(NormalView):
