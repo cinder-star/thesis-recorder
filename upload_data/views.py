@@ -17,7 +17,7 @@ class UploadSentences(APIView):
             filetype = request.data.get("filetype", None)
             df = None
             if filetype == "xlsx":
-                df = pd.read_excel(file.read(), engine="openpyxl")
+                df = pd.read_excel(file.read())
             elif not filetype or filetype == "csv":
                 df = pd.read_csv(file)
             Sentence.objects.bulk_create(
