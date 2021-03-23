@@ -55,7 +55,7 @@ class RecordingFiles(APIView):
 
         in_memory_fp = BytesIO()
         df = pd.DataFrame(recording_data_list, columns=["filename", "size", "sentence"])
-        excel = df.to_excel(in_memory_fp)
+        df.to_excel(in_memory_fp)
         in_memory_fp.seek(0, 0)
 
         with zipfile.ZipFile(response, "w") as zipme:
