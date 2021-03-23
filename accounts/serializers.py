@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from accounts.models import User
-from rest_framework_simplejwt.serializers import TokenObtainSerializer
 from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -34,4 +34,11 @@ class UserSerializerWithToken(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ("access", "refresh", "username", "password")
+        fields = ("access", "refresh", "username", "password", "is_superuser")
+
+
+class TokenObtainCustomSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        raw_data = super().validate(attrs)
+        raw_data["is_superadmin"] = self.user.is_staff
+        return raw_data
