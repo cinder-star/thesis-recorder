@@ -1,12 +1,8 @@
 import os
 from io import BytesIO
-from os.path import basename
 from download_data.utils import get_recording_list
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
-from rest_framework.response import Response
-from rest_framework.settings import api_settings
-from rest_framework_csv import renderers as r
 from django.http import HttpResponse
 
 import pandas as pd
@@ -31,7 +27,7 @@ class RecordingData(APIView):
         )
 
         df = pd.DataFrame(recording_data_list, columns=["filename", "size", "sentence"])
-        csv = df.to_csv()
+        csv = df.to_excel()
 
         response = HttpResponse(csv, content_type="application/csv")
         response["Content-Disposition"] = 'attachment; filename="train.csv"'
@@ -50,7 +46,21 @@ class RecordingFiles(APIView):
         if id:
             zipfilename = "".join([f"{id}", "-", zipfilename])
         response = HttpResponse(content_type="application/zip")
+
+        recording_data_list = list(
+            Recording.objects.all().values_list(
+                "filename", "size", "sentence__sentence"
+            )
+        )
+
+        in_memory_fp = BytesIO()
+        df = pd.DataFrame(recording_data_list, columns=["filename", "size", "sentence"])
+        excel = df.to_excel(in_memory_fp)
+        in_memory_fp.seek(0, 0)
+
         with zipfile.ZipFile(response, "w") as zipme:
+            file1 = zipfile.ZipInfo("train.xls")
+            zipme.writestr(file1, data=in_memory_fp.read())
             for file in recording_list:
                 filepath = os.path.join(MEDIA_ROOT, file)
                 zipme.write(filepath, file, compress_type=zipfile.ZIP_DEFLATED)
