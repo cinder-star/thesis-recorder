@@ -19,7 +19,7 @@ gunicorn==20.0.4
 MarkupSafe==1.1.1
 pandas
 pycparser==2.18
-PyJWT==1.7.1
+PyJWT>=2
 pylint==2.5.3
 pyparsing==2.4.7
 python-dateutil==2.8.1
